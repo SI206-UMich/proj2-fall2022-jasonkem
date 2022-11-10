@@ -54,7 +54,7 @@ def get_listings_from_search_results(html_file):
         return final_tuple
         
         
-get_listings_from_search_results("html_files/mission_district_search_results.html") 
+# get_listings_from_search_results("html_files/mission_district_search_results.html") 
 
 
 
@@ -117,8 +117,8 @@ def get_listing_information(listing_id):
 
 
 
-get_listing_information('41545776')
-get_listing_information('23354077')
+# get_listing_information('41545776')
+# get_listing_information('23354077')
     
 
 
@@ -139,8 +139,25 @@ def get_detailed_listing_database(html_file):
         ...
     ]
     """
-    pass
+    final_tuple_list = []
 
+    id_list = []
+    data_set_1 = get_listings_from_search_results(html_file)
+    for values in range(len((data_set_1))):
+        id_list.append(data_set_1[values][2])
+    listing_info_list = []
+    for ids in id_list:
+        listing_info_list.append(get_listing_information(ids))
+    
+    for information in range(len(data_set_1)):
+    #    print(data_set_1[information])
+    #    print(listing_info_list[information])
+       new_tuple = data_set_1[information] + listing_info_list[information]
+       final_tuple_list.append(new_tuple)
+
+    return final_tuple_list
+    
+# get_detailed_listing_database("html_files/mission_district_search_results.html")
 
 # def write_csv(data, filename):
 #     """
