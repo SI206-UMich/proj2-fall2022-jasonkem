@@ -1,3 +1,10 @@
+# Your name: Jason Kemp
+# Your student id: 7315 4420
+# Your email: jasonkem@umich.edu
+# List who you have worked with on this homework: Christopher Sayah
+
+
+
 from xml.sax import parseString
 from bs4 import BeautifulSoup
 import re
@@ -83,7 +90,7 @@ def get_listing_information(listing_id):
         number of bedrooms
     )
     # """
-    
+
     f = 'html_files/listing_' + listing_id + '.html'
     file = open(f, 'r')
     files = file.read()
@@ -151,7 +158,6 @@ def get_detailed_listing_database(html_file):
     # print(list_of_tuples)
     return list_of_tuples
 
-    # return final_tuple_list
     
 # get_detailed_listing_database("html_files/mission_district_search_results.html")
 
@@ -223,21 +229,35 @@ def check_policy_numbers(data):
     
 # check_policy_numbers(get_detailed_listing_database("html_files/mission_district_search_results.html"))
 
-# def extra_credit(listing_id):
-#     """
-#     There are few exceptions to the requirement of listers obtaining licenses
-#     before listing their property for short term leases. One specific exception
-#     is if the lister rents the room for less than 90 days of a year.
+def extra_credit(listing_id):
+    """
+    There are few exceptions to the requirement of listers obtaining licenses
+    before listing their property for short term leases. One specific exception
+    is if the lister rents the room for less than 90 days of a year.
 
-#     Write a function that takes in a listing id, scrapes the 'reviews' page
-#     of the listing id for the months and years of each review (you can find two examples
-#     in the html_files folder), and counts the number of reviews the apartment had each year.
-#     If for any year, the number of reviews is greater than 90 (assuming very generously that
-#     every reviewer only stayed for one day), return False, indicating the lister has
-#     gone over their 90 day limit, else return True, indicating the lister has
-#     never gone over their limit.
-#     """
-#     pass
+    Write a function that takes in a listing id, scrapes the 'reviews' page
+    of the listing id for the months and years of each review (you can find two examples
+    in the html_files folder), and counts the number of reviews the apartment had each year.
+    If for any year, the number of reviews is greater than 90 (assuming very generously that
+    every reviewer only stayed for one day), return False, indicating the lister has
+    gone over their 90 day limit, else return True, indicating the lister has
+    never gone over their limit.
+    """
+    f = "html_files/listing_" + listing_id + '_reviews.html'
+    with open(f, "r") as files:
+        text = files.read()
+        soup = BeautifulSoup(text, "html.parser")
+    id_list = soup.find_all("li", class_ = "_1f1oir5")
+    id_dict = {}
+    for x in id_list:
+        reviews = re.findall('\d{4}', x.text)[0]
+        id_dict[reviews] = id_dict.get(reviews, 0) + 1
+        if id_dict[reviews] > 90:
+            return False
+    return True
+
+# extra_credit('16204265')
+
 
 
 class TestCases(unittest.TestCase):
